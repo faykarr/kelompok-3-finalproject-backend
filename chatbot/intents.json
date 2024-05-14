@@ -1,0 +1,92 @@
+{"intents": [
+  {
+  "tag": "greetings",
+  "patterns": ["hi", "hello", "hey", "good day", "greetings", "what's up?", "how is it going?", "test"],
+  "responses": ["Hello", "Hey!", "What can I do for you?"]
+  },
+  {
+  "tag": "farewell",
+  "patterns": ["bye", "goodbye", "see you later", "see you soon", "take care"],
+  "responses": ["Goodbye!", "See you later!", "Take care!"]
+  },
+  {
+  "tag": "gratitude",
+  "patterns": ["thank you", "thanks", "appreciate it", "thanks a lot"],
+  "responses": ["You're welcome!", "Glad I could help!", "No problem!"]
+  },
+  {
+  "tag": "introduction",
+  "patterns": ["my name is [name]", "I am [name]", "I'm [name]", "call me [name]"],
+  "responses": ["Nice to meet you, [name]!", "Hello, [name]!", "Hi there, [name]!"]
+  },
+  {
+  "tag": "asking_name",
+  "patterns": ["What's your name?", "May I know your name?", "Who are you?"],
+  "responses": ["I'm a chatbot designed to assist you.", "You can call me EzChat.", "I'm your virtual assistant, EzChat."]
+  },
+  {
+    "tag": "datetime",
+    "patterns": ["What is today's date?", "What is today's year?", "What is today's month?"],
+    "responses": ["Today is [date] [month] [year]."]
+  },
+  {"tag": "date",
+     "patterns": ["What day is today?"],
+     "responses": ["Today is [day]."]
+  },
+  {
+  "tag": "asking_weather",
+  "patterns": ["What's the weather like?", "How's the weather today?", "Is it going to rain?"],
+  "responses": ["Let me check the weather for you.", "One moment, I'll fetch the weather forecast."]
+  },
+  {
+    "tag": "asking_time",
+    "patterns": ["What time is it?", "Do you know the time?", "Could you tell me the time?"],
+    "responses": ["Let me check the time for you.", "It's currently [current_time]."]
+  },
+  {
+    "tag": "asking_location",
+    "patterns": ["Where are you located?", "What's your location?", "Where do you operate from?"],
+    "responses": ["I exist in the digital realm!", "I'm everywhere and nowhere in particular."]
+  },
+  {
+    "tag": "asking_help",
+    "patterns": ["Can you help me?", "I need assistance", "Help please"],
+    "responses": ["Of course, I'm here to help!", "Sure, what do you need assistance with?", "Absolutely, just let me know what you need."]
+  },
+  {
+    "tag": "asking_about_bot",
+    "patterns": ["What are you?", "Are you a robot?", "Are you human?"],
+    "responses": ["I'm an AI-powered chatbot.", "I'm an artificial intelligence designed to chat with you.", "I'm a virtual assistant programmed to assist you."]
+  },
+  {
+    "tag": "expressing_confusion",
+    "patterns": ["I'm confused", "I don't understand", "I'm lost"],
+    "responses": ["Don't worry, I'm here to help you figure things out.", "Let's work together to clarify things.", "I'll do my best to assist you."]
+  },
+  {
+    "tag": "expressing_emotion",
+    "patterns": ["I'm happy", "I'm sad", "I'm excited"],
+    "responses": ["That's great to hear!", "I'm sorry to hear that.", "That sounds exciting!"]
+  },
+  {
+    "tag": "asking_age",
+    "patterns": ["How old are you?", "What's your age?", "When were you created?"],
+    "responses": ["I don't have an age since I'm a virtual entity.", "I came into existence when I was created.", "Age is just a number in my digital world."]
+  },
+  {
+    "tag": "ui_ux",
+    "patterns": [
+      "What is UI/UX design?",
+      "Explain UI/UX to me.",
+      "Can you tell me about user interface and user experience design?"
+    ],
+    "responses": [
+      "UI/UX stands for User Interface/User Experience. It's a crucial aspect of software and product design aimed at enhancing user satisfaction by improving the usability, accessibility, and overall pleasure provided in the interaction between the user and the product.",
+      "UI refers to the User Interface, which focuses on the visual elements and layout of a product, including buttons, icons, screens, and other visual indicators. UX, on the other hand, stands for User Experience, which is more about the overall experience a user has while interacting with a product, including factors like ease of use, efficiency, and emotional impact.",
+      "In simpler terms, UI is what users see and interact with directly, while UX is the overall feeling users have while using a product. Both UI and UX design are essential for creating products that are not only visually appealing but also intuitive and enjoyable to use."
+    ]
+  }
+  
+]
+}
+  
