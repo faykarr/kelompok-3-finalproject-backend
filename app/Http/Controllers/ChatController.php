@@ -19,6 +19,7 @@ class ChatController extends Controller
             return $responsenotconnect;
         }
     }
+
     public function responsegpt(Request $request): JsonResponse
     {
         $search = $request->input('message');
@@ -48,4 +49,24 @@ class ChatController extends Controller
     
     }
 
+    public function testapi()
+    {
+        $masukan = 'halo';
+        $data1 = ['masuk', 'keluar'];
+        $data2 = [1, 2, 3, 4, 5, $masukan];
+        return response()->json([
+            'data1' => $data1,
+            'data2' => $data2,
+        ]);
+    }
+    public function posttestapi(Request $request)
+    {
+        $newData = $request->input('newData');
+        $data1 = ['masuk', 'keluar'];
+        $data2 = [1, 2, 3, 4, 5, $newData];
+        return response()->json([
+            'data1' => $data1,
+            'data2' => $data2,
+        ]);
+    }
 }
