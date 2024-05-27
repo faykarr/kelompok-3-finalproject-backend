@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth;
 
@@ -14,14 +15,13 @@ class AuthController extends Controller
     {
         // Validate the incoming request
         $validator = Validator::make($request->all(), [
-            'nama' => 'required|string|min:2|max:255',
+            'name' => 'required|string|min:2|max:255',
             'email' => 'required|string|email:rfc,dns|max:255|unique:users',
-            'no_telp' => 'required|string|max:15',
-            'password' => 'required|string|min:6|max:255',
-            'jenis_kelamin' => 'required|integer',
-            'tgl_lahir' => 'required|date',
-            'address' => 'required|string|max:255',
-            'deskripsi' => 'nullable|string',
+            'password' => 'required|string|min:8|max:255',
+            'phone_number' => 'number|max:15',
+            'address' => 'string|max:255',
+            'birthdate' => 'date',
+            'gender' => 'in:L,P',
             'photo' => 'nullable|string',
             'role' => 'required|in:admin,owner,user',
         ]);
@@ -32,15 +32,9 @@ class AuthController extends Controller
 
         // Create user if the request is valid
         $user = User::create([
-            'nama' => $request['nama'],
+            'name' => $request['name'],
             'email' => $request['email'],
-            'no_telp' => $request['no_telp'],
-            'password' => bcrypt($request['password']),
-            'jenis_kelamin' => $request['jenis_kelamin'],
-            'tgl_lahir' => $request['tgl_lahir'],
-            'address' => $request['address'],
-            'deskripsi' => $request['deskripsi'],
-            'photo' => $request['photo'],
+            'password' => $request['password'],
             'role' => $request['role'],
         ]);
 
