@@ -24,11 +24,11 @@ class ProfileController extends Controller
         $validated = $request->validated();
 
         if ($request->hasFile('photo')) {
-            if (!empty($user->photo) && Storage::disk('local')->exists($user->photo)) {
-                Storage::disk('local')->delete($user->photo);
+            if (!empty($user->photo) && Storage::disk('public')->exists($user->photo)) {
+                Storage::disk('public')->delete($user->photo);
             }
 
-            $validated['photo'] = Storage::disk('local')->put('profile', $request->file('photo'));
+            $validated['photo'] = Storage::disk('public')->put('profile', $request->file('photo'));
         }
 
         $user->update($validated);
