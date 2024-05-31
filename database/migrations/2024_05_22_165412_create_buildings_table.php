@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignId('building_type_id')->constrained()->restrictOnDelete()->cascadeOnUpdate();
             $table->foreignId('city_id')->constrained()->restrictOnDelete()->cascadeOnUpdate();
             $table->string('name', 50);
+            $table->string('slug', 100)->unique()->nullable();
             $table->string('address');
             $table->longText('description');
             $table->timestamps();
