@@ -28,6 +28,10 @@ class User extends Authenticatable implements JWTSubject
         'role',
     ];
 
+    public const IS_ADMIN = 'admin';
+    public const IS_OWNER = 'owner';
+    public const IS_USER = 'user';
+
     /**
      * The attributes that should be hidden for serialization.
      *
