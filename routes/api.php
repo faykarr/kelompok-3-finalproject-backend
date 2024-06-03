@@ -5,6 +5,7 @@ use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\RoleMiddleware;
 use App\Http\Controllers\ChatController;
+use App\Http\Controllers\Api\RentController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\RoomController;
 use App\Http\Controllers\Api\UserController;
@@ -36,6 +37,7 @@ Route::get('/building/province/{province}', [BuildingController::class, 'getBuil
 Route::apiResource('building', BuildingController::class);
 
 Route::apiResource('room', RoomController::class);
+Route::apiResource('rent', RentController::class);
 
 Route::middleware(['auth:api'])->group(function () {
     Route::get('/me', [UserController::class, 'me']);

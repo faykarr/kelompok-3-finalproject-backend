@@ -16,7 +16,7 @@ class Rent extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function details()
+    public function rentDetails()
     {
         return $this->hasMany(RentDetail::class);
     }
