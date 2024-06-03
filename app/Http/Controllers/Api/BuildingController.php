@@ -3,16 +3,15 @@
 namespace App\Http\Controllers\Api;
 
 use App\Models\City;
-use App\Models\User;
 use App\Models\Building;
 use App\Models\Province;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use App\Models\BuildingImage;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Resources\BuildingResource;
+use Illuminate\Support\Facades\Validator;
 
 class BuildingController extends Controller
 {
@@ -75,6 +74,13 @@ class BuildingController extends Controller
             'description' => $request->description
         ]);
 
+        if ($request->hasFile('images')) {
+            foreach ($request->images as $image) {
+                $path = Storage::disk('public')->put('building', $image);
+                $building->buildingImages()->create(['image' => $path]);
+            }
+        }
+
         return new BuildingResource($building);
     }
 
@@ -115,19 +121,46 @@ class BuildingController extends Controller
             ], 403);
         }
 
-        $building->update([
-            'name' => $request->name,
-            'address' => $request->address,
-            'city_id' => $request->city_id,
-            'building_type_id' => $request->building_type_id,
-            'description' => $request->description
+        $validator = Validator::make($request->all(), [
+            'name' => 'string',
+            'address' => 'string',
+            'city_id' => 'exists:cities,id',
+            'building_type_id' => 'exists:building_types,id',
+            'description' => 'string',
+            'images.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
         ]);
 
-        $building->slug = Str::slug($request->name);
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 'error',
+                'message' => $validator->errors()
+            ], 422);
+        }
+
+        $building->update($validator->validate());
+
+        $building->slug = Str::slug($building->name);
 
         $building->update();
 
-        return new BuildingResource($building);
+        if ($request->hasFile('images')) {
+            $building->buildingImages()->delete();
+            foreach ($building->buildingImages as $image) {
+                if (Storage::disk('public')->exists($image->image)) {
+                    Storage::disk('public')->delete($image->image);
+                }
+            }
+
+            foreach ($request->images as $image) {
+                $path = Storage::disk('public')->put('building', $image);
+                $building->buildingImages()->create(['image' => $path]);
+            }
+        }
+
+        return response()->json([
+            'status' => 'success',
+            'data' => new BuildingResource($building)
+        ]);
     }
 
     /**
@@ -140,8 +173,7 @@ class BuildingController extends Controller
 
     public function getBuildingByCity(City $city)
     {
-        // $buildings = Building::where('city_id', $city->id)->get();
-        $buildings = $city->buildings;
+        $buildings = $city->buildings()->get();
 
         if ($buildings->isEmpty()) {
             return response()->json([
@@ -158,9 +190,7 @@ class BuildingController extends Controller
 
     public function getBuildingByProvince(Province $province)
     {
-        $buildings = Building::whereHas('city', function($query) use ($province) {
-            $query->where('province_id', $province->id);
-        })->get();
+        $buildings = $province->buildings()->get();
 
         if ($buildings->isEmpty()) {
             return response()->json([

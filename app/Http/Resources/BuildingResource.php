@@ -17,9 +17,10 @@ class BuildingResource extends JsonResource
         return [
             'name' => $this->name,
             'address' => $this->address,
-            'start_price' => $this->when(!$request->routeIs('building.show'), $this->getLowestRoomPrice()),
-            'city' => $this->when($request->routeIs('building.show'), CityResource::make($this->city)),
-            'description' => $this->when($request->routeIs('building.show'), $this->description),
+            'start_price' => $this->when($request->routeIs('building.index'), $this->getLowestRoomPrice()),
+            'type' => $this->when(!$request->routeIs('building.index'), $this->buildingType->name),
+            'city' => $this->when(!$request->routeIs('building.index'), $this->city->name),
+            'description' => $this->when(!$request->routeIs('building.index'), $this->description),
             'images' => $this->when($request->routeIs('building.show'), BuildingImageResource::collection($this->buildingImages)),
             'rooms' => $this->when($request->routeIs('building.show'), RoomResource::collection($this->rooms))
         ];

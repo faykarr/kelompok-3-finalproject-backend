@@ -9,7 +9,7 @@ class BuildingImage extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['building_id', 'name'];
+    protected $fillable = ['building_id', 'image'];
 
     public function building()
     {
