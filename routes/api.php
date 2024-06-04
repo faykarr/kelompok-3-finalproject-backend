@@ -5,7 +5,9 @@ use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\RoleMiddleware;
 use App\Http\Controllers\ChatController;
+use App\Http\Controllers\Api\RentController;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\RoomController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\RegionController;
 use App\Http\Controllers\Api\ProfileController;
@@ -34,6 +36,9 @@ Route::get('/building/city/{city}', [BuildingController::class, 'getBuildingByCi
 Route::get('/building/province/{province}', [BuildingController::class, 'getBuildingByProvince'])->name('building.province');
 Route::apiResource('building', BuildingController::class);
 
+Route::apiResource('room', RoomController::class);
+Route::apiResource('rent', RentController::class);
+
 Route::middleware(['auth:api'])->group(function () {
     Route::get('/me', [UserController::class, 'me']);
 
@@ -41,6 +46,6 @@ Route::middleware(['auth:api'])->group(function () {
 
     // Logout route
     Route::post('/logout', [AuthController::class, 'logout']);
-    Route::get('/profile', [ProfileController::class, 'edit']);
-    Route::post('/profile', [ProfileController::class, 'update']);
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::post('/profile', [ProfileController::class, 'update'])->name('profile.update');
 });
