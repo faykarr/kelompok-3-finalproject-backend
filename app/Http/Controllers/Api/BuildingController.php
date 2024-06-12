@@ -136,27 +136,27 @@ class BuildingController extends Controller
                 'message' => $validator->errors()
             ], 422);
         }
-
+        
         $building->update($validator->validate());
-
+        
         $building->slug = Str::slug($building->name);
-
+        
         $building->update();
-
+        
         if ($request->hasFile('images')) {
-            $building->buildingImages()->delete();
+            // Delete old images from storage
             foreach ($building->buildingImages as $image) {
                 if (Storage::disk('public')->exists($image->image)) {
                     Storage::disk('public')->delete($image->image);
                 }
             }
-
+            // Store new images and create new image records
             foreach ($request->images as $image) {
                 $path = Storage::disk('public')->put('building', $image);
                 $building->buildingImages()->create(['image' => $path]);
             }
         }
-
+        
         return response()->json([
             'status' => 'success',
             'data' => new BuildingResource($building)
