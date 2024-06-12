@@ -12,17 +12,10 @@ class AuthController extends Controller
 {
     public function register(Request $request)
     {
-        // Validate the incoming request
         $validator = Validator::make($request->all(), [
             'nama' => 'required|string|min:2|max:255',
             'email' => 'required|string|email:rfc,dns|max:255|unique:users',
-            'no_telp' => 'required|string|max:15',
             'password' => 'required|string|min:6|max:255',
-            'jenis_kelamin' => 'required|integer',
-            'tgl_lahir' => 'required|date',
-            'address' => 'required|string|max:255',
-            'deskripsi' => 'nullable|string',
-            'photo' => 'nullable|string',
             'role' => 'required|in:admin,owner,user',
         ]);
 
@@ -30,24 +23,15 @@ class AuthController extends Controller
             return response()->json(['errors' => $validator->errors()], 422);
         }
 
-        // Create user if the request is valid
         $user = User::create([
             'nama' => $request['nama'],
             'email' => $request['email'],
-            'no_telp' => $request['no_telp'],
             'password' => bcrypt($request['password']),
-            'jenis_kelamin' => $request['jenis_kelamin'],
-            'tgl_lahir' => $request['tgl_lahir'],
-            'address' => $request['address'],
-            'deskripsi' => $request['deskripsi'],
-            'photo' => $request['photo'],
             'role' => $request['role'],
         ]);
 
-        // Login the user immediately and generate the token
         $token = JWTAuth::fromUser($user);
 
-        // Return the response as JSON
         return response()->json([
             'meta' => [
                 'code' => 200,

@@ -15,11 +15,11 @@ return new class extends Migration
             $table->id();
             $table->string('nama');
             $table->string('email')->unique();
-            $table->string('no_telp');
             $table->string('password');
-            $table->integer('jenis_kelamin');
-            $table->date('tgl_lahir');
-            $table->string('address');
+            $table->string('no_telp')->nullable();
+            $table->integer('jenis_kelamin')->nullable();
+            $table->date('tgl_lahir')->nullable();
+            $table->string('alamat')->nullable();
             $table->longText('deskripsi')->nullable();
             $table->string('photo')->nullable();
             $table->enum('role', ['admin', 'owner', 'user']);
