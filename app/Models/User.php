@@ -17,17 +17,20 @@ class User extends Authenticatable implements JWTSubject
      * @var array<int, string>
      */
     protected $fillable = [
-        'nama',
+        'name',
         'email',
-        'no_telp',
         'password',
-        'jenis_kelamin',
-        'tgl_lahir',
+        'phone_number',
         'address',
-        'deskripsi',
+        'birthdate',
+        'gender',
         'photo',
         'role',
     ];
+
+    public const IS_ADMIN = 'admin';
+    public const IS_OWNER = 'owner';
+    public const IS_USER = 'user';
 
     /**
      * The attributes that should be hidden for serialization.
@@ -67,5 +70,20 @@ class User extends Authenticatable implements JWTSubject
     public function getJWTCustomClaims()
     {
         return [];
+    }
+
+    public function building()
+    {
+        return $this->hasOne(Building::class);
+    }
+
+    public function rooms()
+    {
+        return $this->hasMany(Room::class);
+    }
+
+    public function rents()
+    {
+        return $this->hasMany(Rent::class);
     }
 }
