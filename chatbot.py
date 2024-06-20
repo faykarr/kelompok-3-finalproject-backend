@@ -14,20 +14,20 @@ import sys
 app = Flask(__name__)
 
 
-# Load model and data
-lemmatizer = WordNetLemmatizer()
+# muat model dan data
+lemmatizer = WordNetLemmatizer() # fungsi untuk lematisasi
 model = keras.models.load_model("./chatbot/chatbot_model.h5")
 classes = pickle.load(open('./chatbot/classes.pkl', 'rb'))
 intents = json.loads(open("./chatbot/intents.json").read())
 words = pickle.load(open('./chatbot/words.pkl', 'rb'))
 
-# Function to clean up sentence
+# Fungsi untuk Membersihkan Kalimat
 def clean_up_sentence(sentence):
     sentence_words = nltk.word_tokenize(sentence)
     sentence_words = [lemmatizer.lemmatize(word.lower()) for word in sentence_words]
     return sentence_words
 
-# Function to create bag of words
+# Fungsi untuk Membuat Bag of Words
 def bag_of_words(sentence):
     sentence_words = clean_up_sentence(sentence)
     bag = [0] * len(words)
@@ -37,7 +37,7 @@ def bag_of_words(sentence):
                 bag[i] = 1
     return np.array(bag)
 
-# Function to predict class
+# Funngsi kelas intent dari kalimat input menggunakan model yang telah dilatih.
 def predict_class(sentence):
     bow = bag_of_words(sentence)
     res = model.predict(np.array([bow]))[0]
@@ -49,14 +49,13 @@ def predict_class(sentence):
     for r in results:
         return_list.append({'intent': classes[r[0]], 'probability': str(r[1])})
     
-    # Tambahkan penanganan khusus untuk intent "datetime"
+    # mengecek ada tanggal?
     if return_list[0]['intent'] == 'datetime':
-        # Cek jika tidak ada kata kunci yang spesifik
         if all(word not in sentence for word in ['date', 'year', 'month']):
-            # Set default intent ke 'date'
             return_list[0]['intent'] = 'date'
     return return_list
 
+# Mendapatkan Tanggal dan Waktu
 def get_date_time():
     now = datetime.now()
     date = now.strftime("%d")
@@ -69,7 +68,7 @@ def get_day():
     day = now.strftime("%A")
     return day
 
-# Function to get response
+# Fungsi mendapatkan respon
 def get_response(intents_list, intents_json, user_name=""):
     tag = intents_list[0]['intent']
     list_of_intents = intents_json['intents']
@@ -107,7 +106,7 @@ def get_response(intents_list, intents_json, user_name=""):
     
     return response
 
-# Define routes
+# Mendefinisikan route
 @app.route('/predict', methods=['POST'])
 def predict():
     data = request.get_json()
@@ -121,6 +120,7 @@ def predict():
     res = get_response(ints, intents, user_name=user_name)
     return jsonify({'response': res})
 
+# menjalankan aplikasi
 if sys.argv[0]:
     if __name__ == "__main__":
         app.run(debug=True)

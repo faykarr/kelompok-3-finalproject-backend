@@ -15,12 +15,12 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->string('phone_number', 20)->nullable();
-            $table->string('address')->nullable();
+            $table->string('phone_number')->nullable();
+            $table->integer('gender')->nullable();
             $table->date('birthdate')->nullable();
-            $table->enum('gender', ['L', 'P'])->nullable();
+            $table->string('address')->nullable();
+            $table->longText('description')->nullable();
             $table->string('photo')->nullable();
             $table->enum('role', ['admin', 'owner', 'user']);
             $table->rememberToken();

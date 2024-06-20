@@ -42,10 +42,8 @@ Route::apiResource('rent', RentController::class);
 Route::middleware(['auth:api'])->group(function () {
     Route::get('/me', [UserController::class, 'me']);
 
-    Route::get('/admincek', [UserController::class, 'admin'])->middleware(RoleMiddleware::class);
-
-    // Logout route
     Route::post('/logout', [AuthController::class, 'logout']);
+    Route::put('/updateUsers/{id}', [AuthController::class, 'update']);
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::post('/profile', [ProfileController::class, 'update'])->name('profile.update');
 });
